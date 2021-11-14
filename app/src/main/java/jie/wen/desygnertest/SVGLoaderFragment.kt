@@ -2,6 +2,7 @@ package jie.wen.desygnertest
 
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,9 +15,14 @@ import jie.wen.desygnertest.data.SVGText
 import jie.wen.desygnertest.ui.component.SVGImageView
 import jie.wen.desygnertest.ui.component.SVGRectView
 import jie.wen.desygnertest.ui.component.SVGTextView
+import java.lang.Exception
 
 
 class SVGLoaderFragment : Fragment() {
+    companion object {
+        private const val TAG = "SVGLoaderFragment"
+    }
+
     private var _binding: FragmentSvgLoaderBinding? = null
 
     private val binding get() = _binding!!
@@ -36,23 +42,27 @@ class SVGLoaderFragment : Fragment() {
                 val list = SVGParser().parse(stream)
 
                 for (element in list) {
-                    this.context?.let { context ->
-                        val view: View? = when (element) {
-                            is SVGRect -> {
-                                SVGRectView(element, context)
+                    try {
+                        this.context?.let { context ->
+                            val view: View? = when (element) {
+                                is SVGRect -> {
+                                    SVGRectView(element, context)
+                                }
+                                is SVGImage -> {
+                                    SVGImageView(element, context)
+                                }
+                                is SVGText -> {
+                                    SVGTextView(element, context)
+                                }
+                                else -> {null}
                             }
-                            is SVGImage -> {
-                                SVGImageView(element, context)
-                            }
-                            is SVGText -> {
-                                SVGTextView(element, context)
-                            }
-                            else -> {null}
-                        }
 
-                        view?.let {
-                            layout?.addView(it)
+                            view?.let {
+                                layout?.addView(it)
+                            }
                         }
+                    } catch (e: Exception) {
+                        Log.e(TAG, e.toString())
                     }
                 }
                 stream.close()

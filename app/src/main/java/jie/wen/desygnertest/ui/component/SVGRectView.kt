@@ -3,6 +3,7 @@ package jie.wen.desygnertest.ui.component
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import jie.wen.desygnertest.data.SVGRect
@@ -37,17 +38,25 @@ class SVGRectView(element: SVGRect, context: Context) : View(context) {
             try {
                 color = Color.parseColor(element.stroke)
             } catch (e: Exception) {
-
+                Log.e(TAG, e.toString())
             }
 
-            rect.setStroke(
-                element.strokeWidth.toInt(),
-                color,
-                element.strokeDashArray.split(",")[0].toFloat(),
-                element.strokeDashArray.split(",")[1].toFloat()
-            )
+            try {
+                rect.setStroke(
+                    element.strokeWidth.toInt(),
+                    color,
+                    element.strokeDashArray.split(",")[0].toFloat(),
+                    element.strokeDashArray.split(",")[1].toFloat()
+                )
+            } catch (e: Exception) {
+                Log.e(TAG, e.toString())
+            }
         }
         this.background = rect
         setOnTouchListener(DragTouchListener)
+    }
+
+    companion object {
+        private const val TAG = "SVGRectView"
     }
 }
