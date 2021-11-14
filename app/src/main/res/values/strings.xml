@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Desygner Test</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="file_picker_fragment_label">File Picker Fragment</string>
+    <string name="svg_loader_fragment_label">SVG Loader Fragment</string>
+    <string name="pick_svg_files">Pick SVG files</string>
+    <string name="previous">Previous</string>
+
+    <string name="desc_file_picker_fragment">Click the button to pick SVG files</string>
+</resources>
